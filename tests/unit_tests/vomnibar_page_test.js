@@ -90,4 +90,69 @@ context("vomnibar page", () => {
     // The query should not be treated as a user search engine.
     assert.equal("constructor ", ui.input.value);
   });
+
+  should("close the selected tab completion when cmd-backspace is pressed", async () => {
+    const tabCompletion = { description: "tab", tabId: 123, html: "tab" };
+    let removedTabId = null;
+    stub(chrome.runtime, "sendMessage", async (message) => {
+      if (message.handler == "filterCompletions") {
+        return [tabCompletion];
+      } else if (message.handler == "removeSpecificTab") {
+        removedTabId = message.id;
+        return null;
+      }
+    });
+
+    ui.setInitialSelectionValue(0);
+    await ui.update();
+
+    const event = newKeyEvent({ type: "keydown", key: "Backspace", metaKey: true });
+    await ui.onKeyEvent(event);
+    assert.equal(123, removedTabId);
+  });
+
+  should("close the selected tab completion when cmd-delete is pressed", async () => {
+    const tabCompletion = { description: "tab", tabId: 456, html: "tab" };
+    let removedTabId = null;
+    stub(chrome.runtime, "sendMessage", async (message) => {
+      if (message.handler == "filterCompletions") {
+        return [tabCompletion];
+      } else if (message.handler == "removeSpecificTab") {
+        removedTabId = message.id;
+        return null;
+      }
+    });
+
+    ui.setInitialSelectionValue(0);
+    await ui.update();
+
+    const event = newKeyEvent({ type: "keydown", key: "Delete", metaKey: true });
+    await ui.onKeyEvent(event);
+    assert.equal(456, removedTabId);
+  });
+
+  should("not consume cmd-backspace if the selected completion is not a tab", async () => {
+    const nonTabCompletion = { description: "history", url: "http://example.com", html: "x" };
+    stub(chrome.runtime, "sendMessage", async (message) => {
+      if (message.handler == "filterCompletions") {
+        return [nonTabCompletion];
+      }
+    });
+
+    ui.setInitialSelectionValue(0);
+    await ui.update();
+
+    let stopped = false;
+    let prevented = false;
+    const event = newKeyEvent({
+      type: "keydown",
+      key: "Backspace",
+      metaKey: true,
+      stopImmediatePropagation: () => stopped = true,
+      preventDefault: () => prevented = true,
+    });
+    await ui.onKeyEvent(event);
+    assert.equal(false, stopped);
+    assert.equal(false, prevented);
+  });
 });

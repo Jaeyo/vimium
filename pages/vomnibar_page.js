@@ -174,6 +174,11 @@ class VomnibarUI {
       return "ctrl-enter";
     } else if (event.key === "Enter") {
       return "enter";
+    } else if (
+      event.metaKey && !event.shiftKey && !event.ctrlKey && !event.altKey &&
+      KeyboardUtils.isBackspace(event)
+    ) {
+      return "remove-tab";
     } else if ((event.key === "Delete") && event.shiftKey && !event.ctrlKey && !event.altKey) {
       return "remove";
     } else if (KeyboardUtils.isBackspace(event)) {
@@ -224,6 +229,17 @@ class VomnibarUI {
         this.input.value = this.completions[this.selection]?.url;
         this.input.scrollLeft = this.input.scrollWidth;
       }
+    } else if (action === "remove-tab") {
+      if (this.selection < 0) return; // Do not suppress event.
+      const completion = this.completions[this.selection];
+      if (completion?.description !== "tab" || completion?.tabId == null) {
+        return; // Do not suppress event.
+      }
+      await chrome.runtime.sendMessage({
+        handler: "removeSpecificTab",
+        id: completion.tabId,
+      }).catch(() => {});
+      await this.update();
     } else if (action === "delete") {
       if (this.isUserSearchEngineActive() && (this.input.selectionEnd === 0)) {
         // Normally, with custom search engines, the keyword (e.g. the "w" of "w query terms") is

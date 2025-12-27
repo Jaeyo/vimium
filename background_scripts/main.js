@@ -179,6 +179,15 @@ async function selectSpecificTab(request) {
   await chrome.tabs.update(request.id, { active: true });
 }
 
+async function removeSpecificTab(request) {
+  const tab = await chrome.tabs.get(request.id).catch(() => null);
+  if (!tab) return;
+  // In Firefox, Ctrl-W will not close a pinned tab, but on Chrome, it will. We try to be
+  // consistent with each browser's UX for pinned tabs.
+  if (tab.pinned && bgUtils.isFirefox()) return;
+  await chrome.tabs.remove(tab.id).catch(() => {});
+}
+
 function moveTab({ count, tab, registryEntry }) {
   if (registryEntry.command === "moveTabLeft") {
     count = -count;
@@ -642,6 +651,7 @@ const sendRequestHandlers = {
 
   nextFrame: BackgroundCommands.nextFrame,
   selectSpecificTab,
+  removeSpecificTab,
   createMark: marks.create,
   gotoMark: marks.goto,
   // Send a message to all frames in the current tab. If request.frameId is provided, then send
