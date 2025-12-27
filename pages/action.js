@@ -123,7 +123,8 @@ const ActionPage = {
       const hasBlankPassKeysRule = rules.find((r) => r.passKeys.length == 0);
       caption = hasBlankPassKeysRule ? "No" : "Some";
     }
-    document.querySelector("#how-many-enabled").textContent = caption;
+    const el = document.querySelector("#how-many-enabled");
+    if (el) el.textContent = caption;
   },
 
   async onSave() {

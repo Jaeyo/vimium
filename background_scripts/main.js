@@ -11,6 +11,7 @@ import "../background_scripts/completion_search.js";
 import "../background_scripts/completion.js";
 import "../background_scripts/tab_operations.js";
 import * as marks from "../background_scripts/marks.js";
+import * as tabMarks from "../background_scripts/tab_marks.js";
 
 import {
   BookmarkCompleter,
@@ -654,6 +655,8 @@ const sendRequestHandlers = {
   removeSpecificTab,
   createMark: marks.create,
   gotoMark: marks.goto,
+  createTabMark: tabMarks.create,
+  gotoTabMark: tabMarks.goto,
   // Send a message to all frames in the current tab. If request.frameId is provided, then send
   // messages to only the frame with that ID.
   sendMessageToFrames(request, sender) {

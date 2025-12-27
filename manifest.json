@@ -51,6 +51,7 @@
         "content_scripts/vomnibar.js",
         "content_scripts/scroller.js",
         "content_scripts/marks.js",
+        "content_scripts/tab_marks.js",
         "content_scripts/mode_insert.js",
         "content_scripts/mode_find.js",
         "content_scripts/mode_key_handler.js",

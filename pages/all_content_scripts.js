@@ -18,6 +18,7 @@ import "../content_scripts/link_hints.js";
 import "../content_scripts/vomnibar.js";
 import "../content_scripts/scroller.js";
 import "../content_scripts/marks.js";
+import "../content_scripts/tab_marks.js";
 import "../content_scripts/mode_insert.js";
 import "../content_scripts/mode_find.js";
 import "../content_scripts/mode_key_handler.js";

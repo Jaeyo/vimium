@@ -289,6 +289,27 @@ const allCommands = [
     noRepeat: true,
   },
 
+  {
+    name: "TabMarks.activateCreateMode",
+    desc: "Create a tab mark",
+    details: "Do this by typing the key bound to this command, and then a letter. " +
+      "This will bind the current tab to that letter for the current browser session.",
+    group: "navigation",
+    advanced: true,
+    noRepeat: true,
+  },
+
+  {
+    name: "TabMarks.activateGotoMode",
+    desc: "Jump to a tab mark",
+    details: "Do this by typing the key bound to this command, and then a letter. " +
+      "This will activate the tab bound to that letter. If the original tab no longer exists, " +
+      "a new tab will be opened using the saved URL.",
+    group: "navigation",
+    advanced: true,
+    noRepeat: true,
+  },
+
   //
   // Vomnibar
   //
