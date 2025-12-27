@@ -364,6 +364,9 @@ const NormalModeCommands = {
 
   "Marks.activateCreateMode": Marks.activateCreateMode.bind(Marks),
   "Marks.activateGotoMode": Marks.activateGotoMode.bind(Marks),
+
+  "TabMarks.activateCreateMode": TabMarks.activateCreateMode.bind(TabMarks),
+  "TabMarks.activateGotoMode": TabMarks.activateGotoMode.bind(TabMarks),
 };
 
 // The types in <input type="..."> that we consider for focusInput command. Right now this is

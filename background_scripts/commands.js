@@ -440,7 +440,7 @@ const defaultKeyMappings = {
 
   // Using find
   "/": "enterFindMode",
-  "n": "performFind",
+  // "n": "performFind", // Disabled: repurposed for TabMarks.
   "N": "performBackwardsFind",
   "*": "findSelected",
   "#": "findSelectedBackwards",
@@ -482,6 +482,10 @@ const defaultKeyMappings = {
   // Marks
   "m": "Marks.activateCreateMode",
   "`": "Marks.activateGotoMode",
+
+  // Tab marks
+  "n": "TabMarks.activateCreateMode",
+  ";": "TabMarks.activateGotoMode",
 
   // Misc
   "?": "showHelp",
